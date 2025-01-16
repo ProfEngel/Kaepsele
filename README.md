@@ -221,8 +221,22 @@ docker run -d -p 80:8080 -e OLLAMA_BASE_URL=http://127.0.0.1:11434 -v open-webui
 
    Nach Erstellung des Containers können Sie das Tool in OpenWebUI integrieren. Folgen Sie dabei den Anweisungen in der OpenWebUI-Dokumentation zur Tool-Integration. Das Tool findet sich hier: [https://openwebui.com/t/smonux/dockerinterpreter/](https://openwebui.com/t/smonux/dockerinterpreter/)
 
+### Bereitstellen von Pipelines
 
+   Für eine vereinfachte Einrichtung mit Docker:
 
+   **Pipelines-Container starten:**
+   ```bash
+   docker run -d -p 9099:9099 --add-host=host.docker.internal:host-gateway -v pipelines:/app/pipelines --name pipelines --restart always ghcr.io/open-webui/pipelines:main
+   ```
+
+   **Verbindung zu Open WebUI herstellen:**
+
+   1. Navigieren Sie zum **Administrationsbereich > Einstellungen > Verbindungen** in Open WebUI.
+   2. Drücken Sie auf der Seite die **+**-Taste, um eine weitere Verbindung hinzuzufügen.
+   3. Geben Sie folgende Einstellungen ein:
+      - **API-URL**: `http://host.docker.internal:9099`
+      - **API-Schlüssel**: `0p3n-w3bu!`
 
 ## 7. Bereitstellung von vLLM
 
@@ -234,15 +248,13 @@ mkdir -p /root/.cache/huggingface
 
 ### Start von vLLM (Llama3.1 8B mit fp8)
 ```bash
-docker run --gpus all --restart unless-stopped -p 8000:8000 -v /root/.cache/huggingface:/root/.cache/huggingface -e HF_HUB_ENABLE_HF_TRANSFER=1 --name vllm_openai_server vllm/vllm-openai:latest --model neuralmagic/Meta-Llama-3.1-8B-Instruct-FP8 --max-model-len 4096 --port 8000 --api-key sk-12j12hdwjk23jdhj28dwj --max_num_seqs 8 --max_num_batched_tokens 32768 --max_parallel_loading_workers 3
+docker run --gpus all --restart unless-stopped -p 8000:8000 -v /root/.cache/huggingface:/root/.cache/huggingface -e HF_HUB_ENABLE_HF_TRANSFER=1 --name vllm_openai_server vllm/vllm-openai:latest --model neuralmagic/Meta-Llama-3.1-8B-Instruct-FP8 --max-model-len 4096 --port 8000 --api-key sk-12j12hdwjk23jdhj28dwj --max_num_seqs 8 --max_num_batched_tokens 32768 --max_parallel_loading_workers 3 --gpu-memory-utilization 1.0
 ```
 
 ### Start von vLLM (Multimodales Modell Llama3.2 Vision mit fp8)
 ```bash
 docker run -d --gpus all --restart unless-stopped -p 8000:8000 -v /root/.cache/huggingface:/root/.cache/huggingface -e HF_HUB_ENABLE_HF_TRANSFER=1 --name vllm_openai_server_fp8 vllm/vllm-openai:latest --model neuralmagic/Llama-3.2-11B-Vision-Instruct-FP8-dynamic --enforce-eager --max-num-seqs 3 --limit-mm-per-prompt "image=1" --max-model-len 2048 --port 8000 --gpu-memory-utilization 1.0
 ```
-
-docker run -d --gpus all --restart unless-stopped -p 8000:8000 -v /root/.cache/huggingface:/root/.cache/huggingface -e HF_HUB_ENABLE_HF_TRANSFER=1 --name vllm_openai_server_fp8 vllm/vllm-openai:latest --model neuralmagic/Llama-3.2-11B-Vision-Instruct-FP8-dynamic --enforce-eager --max-num-seqs 3 --limit-mm-per-prompt "image=1" --max-model-len 2048 --port 8000 --gpu-memory-utilization 1.0
 
 ## 8. Einrichtung von SearXNG (Alternativ Perplexica in 9. installieren und dann nicht SearXNG hier)
 
@@ -311,7 +323,7 @@ OLLAMA = "http://<IP DES SERVERS>:11434"
 SEARXNG = "http://localhost:4000"
 
 [GENERAL]
-PORT = 3_001
+PORT = 3001
 SIMILARITY_MEASURE = "cosine"
 KEEP_ALIVE = "5m"
 ```
@@ -385,12 +397,21 @@ volumes:
 ```
 - Ersetzen Sie `<IP DES SERVERS>` durch die tatsächliche IP-Adresse des Servers.
 - Speichern Sie die Datei mit `Strg+O` und schließen Sie sie mit `Strg+X`.
+https://github.com/ItzCrazyKns/Perplexica?tab=readme-ov-file#ollama-connection-errors
+
+https://github.com/ItzCrazyKns/Perplexica/blob/master/docs/installation/NETWORKING.md
+
+https://github.com/open-webui/open-webui/discussions/4269
+oder
+
+https://openwebui.com/f/gwaanl/perplexica_pipe
+
 
 ### 3. Docker-Container starten
 
 Bleiben Sie im Verzeichnis und starten Sie die Container:
 ```bash
-docker compose up -d
+docker-compose up -d
 ```
 
 ### 4. Zugriff auf Perplexica
