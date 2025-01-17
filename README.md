@@ -267,7 +267,7 @@ docker run --runtime nvidia --gpus all --restart unless-stopped --ipc=host -p 80
 
 ### Start von vLLM (Multimodales Modell Llama3.2 Vision mit fp8)
 ```bash
-docker run -d --gpus all --restart unless-stopped -p 8000:8000 -v /root/.cache/huggingface:/root/.cache/huggingface -e HF_HUB_ENABLE_HF_TRANSFER=1 --name vllm_openai_server_fp8 vllm/vllm-openai:latest --model neuralmagic/Llama-3.2-11B-Vision-Instruct-FP8-dynamic --enforce-eager --max-num-seqs 3 --limit-mm-per-prompt "image=1" --max-model-len 2048 --port 8000 --gpu-memory-utilization 1.0
+docker run -d --gpus all --restart unless-stopped -p 8000:8000 -v /root/.cache/huggingface:/root/.cache/huggingface -e HF_HUB_ENABLE_HF_TRANSFER=1 --name vllm_openai_server_fp8 vllm/vllm-openai:latest --model neuralmagic/Llama-3.2-11B-Vision-Instruct-FP8-dynamic --enforce-eager --max-num-seqs 3 --limit-mm-per-prompt "image=1" --max-model-len 2048 --port 8000 --api-key sk-12j12hdwjk23jdhj28dwj --gpu-memory-utilization 1.0
 ```
 
 ## 8. Einrichtung von SearXNG (Alternativ Perplexica in 9. installieren und dann nicht SearXNG hier)
