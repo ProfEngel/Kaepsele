@@ -11,6 +11,7 @@ Wir benötigen folgende geöffnete Ports:
 - **Port 3001**: Für Perplexica Backend (muss nicht nach außen freigegeben werden)
 - **Port 3000**: Für Perplexica
 - **Port 7870**: Für StableDiffusion Forge - das Bilderstellungsbereitstellungsprogramm
+- **Port 9099**: Für Pipeline-Docker von OpenWebUI (muss nicht nach außen freigegeben werden)
 
 ## 1. Installation relevanter OS-Updates und Tools
 
