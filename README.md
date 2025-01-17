@@ -80,6 +80,14 @@ nvidia-smi
 
 ## 4. Installation des CUDA-Toolkits
 
+### Download und Installation (im Falle von Ubuntu 22.04)
+```bash
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb
+sudo dpkg -i cuda-keyring_1.1-1_all.deb
+sudo apt-get update
+sudo apt-get -y install cuda-toolkit-12-6
+```
+
 ### Download und Installation (im Falle von Ubuntu 24.04)
 ```bash
 wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb
@@ -249,6 +257,11 @@ mkdir -p /root/.cache/huggingface
 ### Start von vLLM (Llama3.1 8B mit fp8)
 ```bash
 docker run --gpus all --restart unless-stopped -p 8000:8000 -v /root/.cache/huggingface:/root/.cache/huggingface -e HF_HUB_ENABLE_HF_TRANSFER=1 --name vllm_openai_server vllm/vllm-openai:latest --model neuralmagic/Meta-Llama-3.1-8B-Instruct-FP8 --max-model-len 4096 --port 8000 --api-key sk-12j12hdwjk23jdhj28dwj --max_num_seqs 8 --max_num_batched_tokens 32768 --max_parallel_loading_workers 3 --gpu-memory-utilization 1.0
+```
+
+### Start von vLLM (Llama3.1 8B mit int4)
+```bash
+docker run --runtime nvidia --gpus all --restart unless-stopped --ipc=host -p 8000:8000 -v /root/.cache/huggingface:/root/.cache/huggingface -e HF_HUB_ENABLE_HF_TRANSFER=1 --name vllm_openai_server vllm/vllm-openai:latest --model hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4 --max-model-len 4096 --port 8000 --api-key sk-12j12hdwjk23jdhj28dwj --max_num_seqs 8 --max_num_batched_tokens 32768 --max_parallel_loading_workers 3 --gpu-memory-utilization 1.0
 ```
 
 ### Start von vLLM (Multimodales Modell Llama3.2 Vision mit fp8)
