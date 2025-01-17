@@ -247,7 +247,19 @@ docker run -d -p 80:8080 -e OLLAMA_BASE_URL=http://127.0.0.1:11434 -v open-webui
       - **API-URL**: `http://host.docker.internal:9099`
       - **API-Schlüssel**: `0p3n-w3bu!`
 
-## 7. Bereitstellung von vLLM
+## 7. Bereitstellung der generative aber auch embedding-Modelle
+
+
+
+## 7.1 Bereitstellung durch SG-LANG
+
+### Start von vLLM (Llama3.1 8B mit int4)
+```bash
+docker run --gpus all --shm-size 32g -p 8000:8000 -v /root/docker/sglang/huggingface_cache:/root/.cache/huggingface --env "HF_TOKEN=<Ihr_HF_Token>" --ipc=host lmsysorg/sglang:latest python3 -m sglang.launch_server --model-path hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4 --api-key sk-12j12hdwjk23jdhj28dwj --host 0.0.0.0 --port 8000
+```
+
+
+## 7.2 Bereitstellung von vLLM
 
 ### Docker-Image von vLLM ziehen
 ```bash
