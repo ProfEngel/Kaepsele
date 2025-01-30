@@ -249,17 +249,42 @@ docker run -d -p 80:8080 -e OLLAMA_BASE_URL=http://127.0.0.1:11434 -v open-webui
 
 ## 7. Bereitstellung der generative aber auch embedding-Modelle
 
+## 7.1 Bereitstellung durch Llama.cpp
 
+### Start von Llama.cpp (Phi-4 mit Q4 KM) (GPU VRAM ca. 11 GB bei einem 14B Modell)
 
-## 7.1 Bereitstellung durch SG-LANG
+#### Vorbereitungen
+1. Bereitstellen des Modellordners
+```bash
+mkdir -p /root/modelle/GGUF/phi4
 
-### Start von vLLM (Llama3.1 8B mit int4)
+```
+2. Download des Modells
+```bash
+wget https://huggingface.co/unsloth/phi-4-GGUF/resolve/main/phi-4-Q4_K_M.gguf -O /root/modelle/GGUF/phi4/phi-4-Q4_K_M.gguf
+
+```
+
+#### Docker-Container mit dem Sprachmodell (hier Phi-4 mit 14B Parameter) starten
+```bash
+docker run --gpus all --name PHI4 --detach --restart always -v /root/modelle/GGUF/phi4:/models -p 8000:8000 ghcr.io/ggerganov/llama.cpp:server-cuda -m /models/phi-4-Q4_K_M.gguf --port 8000 --n-gpu-layers -1 --api-key sk-12j12hdwjk23jdhj28dwj --parallel 80 --flash-attn
+
+```
+*veraltete Version*
+```bash
+docker run --gpus all -v /root/modelle/GGUF/phi4:/models -p 8000:8000 ghcr.io/ggerganov/llama.cpp:server-cuda -m /models/phi-4-Q4_K_M.gguf --port 8000 --n-gpu-layers 35 --api-key sk-12j12hdwjk23jdhj28dwj --parallel 80 --flash-attn
+
+```
+
+## 7.2 Bereitstellung durch SG-LANG
+
+### Start von SG-LANG (Llama3.1 8B mit AWQ int4) (GPU VRAM ca. 21 GB bei einem 8B Modell)
 ```bash
 docker run --gpus all --shm-size 32g -p 8000:8000 -v /root/docker/sglang/huggingface_cache:/root/.cache/huggingface --env "HF_TOKEN=<Ihr_HF_Token>" --ipc=host lmsysorg/sglang:latest python3 -m sglang.launch_server --model-path hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4 --api-key sk-12j12hdwjk23jdhj28dwj --host 0.0.0.0 --port 8000
 ```
 
 
-## 7.2 Bereitstellung von vLLM
+## 7.3 Bereitstellung von vLLM
 
 ### Docker-Image von vLLM ziehen
 ```bash
@@ -621,8 +646,8 @@ curl -fsSL https://ollama.com/install.sh | sh
    RestartSec=3
    Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
    Environment="OLLAMA_HOST=0.0.0.0"
-   Environment="OLLAMA_MAX_LOADED_MODELS=5" # Maximale Anzahl gleichzeitig geladener Modelle
-   Environment="OLLAMA_NUM_PARALLEL=6" # Maximale Anzahl paralleler Requests pro Modell
+   Environment="OLLAMA_MAX_LOADED_MODELS=3" # Maximale Anzahl gleichzeitig geladener Modelle
+   Environment="OLLAMA_NUM_PARALLEL=20" # Maximale Anzahl paralleler Requests pro Modell
    Environment="OLLAMA_MAX_QUEUE=256" # Maximale Anzahl an Warteschlangen-Requests
 
    [Install]
