@@ -158,7 +158,59 @@ In folgendem Container wird die Nutzung des Codeinterpreters ermöglicht. Die Op
 docker run -d -p 80:8080 -e OLLAMA_BASE_URL=http://127.0.0.1:11434 -v open-webui:/app/backend/data -v /var/run/docker.sock:/var/run/docker.sock --add-host=host.docker.internal:host-gateway --name open-webui --restart always ghcr.io/open-webui/open-webui:main
 ```
 
-### Codeinterpreter Container
+### Code-Interpreter mit Jupyter-Container
+In dem folgenden Container kann man eine Jupyter-Notebook-Instanz laufen lassen. Darin sind dann alle relevanten Bibliotheken installiert.
+1. **Jupyter-Container erstellen und bereitstellen**
+```bash
+docker run -d -p 80:8080 -e OLLAMA_BASE_URL=http://127.0.0.1:11434 -v open-webui:/app/backend/data -v docker run -d -p 8888:8888 jupyter/base-notebook start.sh jupyter notebook --ip=0.0.0.0 --no-browser --allow-root --NotebookApp.disable_check_xsrf=True --NotebookApp.token='IhrSicheresToken'
+```
+Ersetze `IhrSicheresToken` durch einen passenden Token mit vielen Werten.
+
+Dann gehe auf http://ip-adresse-des-servers:8888, gib den Token ein und erstelle zwei Dateien um die passenden Bibliotheken in die Containerumgebung zu installieren.
+
+2. **Bibliotheken installieren**
+Erstelle ein Textfile und benenne es um in "requirements.txt"
+Füge folgende Inhalte in die Datei hinzu und speichere es.
+   Inhalt der requirements.txt:
+   ```
+   pandas
+   numpy
+   scipy
+   py-gnuplot
+   statsmodels
+   scikit-learn
+   matplotlib
+   pypdf
+   python-docx
+   openpyxl
+   XlsxWriter
+   xlrd
+   xlwt
+   reportlab
+   python-pptx
+   PyPDF2
+   pillow
+   pdf2image
+   sympy
+   requests
+   beautifulsoup4
+   qrcode
+   seaborn
+   ```
+
+Danach erstelle ein Notebook und gib in der ersten Zeile folgenden Befehl ein:
+   ```bash
+   !pip install -r requirements.txt
+   ```
+Danach abwarten und in OpenWebUI wechseln.
+
+3. **Jupyter Container als Code Interpreter freischalten **
+Gib unter Administrationsbereich>Einstellungen>Code Execution in beiden Fällen Jupyter ein. Trage die Adresse "http://ip-adresse-des-servers:8888" und den Token ein und dann kann es auch schon losgehen.
+
+
+
+
+### Codeinterpreter Container (veraltet, inzwischen kann man das auch mit eleganter mit einem Jupyter-Container durchführen s.o.)
 
 1. **Dockerfile und requirements speichern**
 
