@@ -162,7 +162,7 @@ docker run -d -p 80:8080 -e OLLAMA_BASE_URL=http://127.0.0.1:11434 -v open-webui
 In dem folgenden Container kann man eine Jupyter-Notebook-Instanz laufen lassen. Darin sind dann alle relevanten Bibliotheken installiert.
 1. **Jupyter-Container erstellen und bereitstellen**
 ```bash
-docker run -d -p 80:8080 -e OLLAMA_BASE_URL=http://127.0.0.1:11434 -v open-webui:/app/backend/data -v docker run -d -p 8888:8888 jupyter/base-notebook start.sh jupyter notebook --ip=0.0.0.0 --no-browser --allow-root --NotebookApp.disable_check_xsrf=True --NotebookApp.token='IhrSicheresToken'
+docker run -d -p 8888:8888 jupyter/base-notebook start.sh jupyter notebook --ip=0.0.0.0 --no-browser --allow-root --NotebookApp.disable_check_xsrf=True --NotebookApp.token='IhrSicheresToken'
 ```
 Ersetze `IhrSicheresToken` durch einen passenden Token mit vielen Werten.
 
