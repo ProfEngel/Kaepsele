@@ -701,6 +701,8 @@ curl -fsSL https://ollama.com/install.sh | sh
    Environment="OLLAMA_MAX_LOADED_MODELS=3" # Maximale Anzahl gleichzeitig geladener Modelle
    Environment="OLLAMA_NUM_PARALLEL=20" # Maximale Anzahl paralleler Requests pro Modell
    Environment="OLLAMA_MAX_QUEUE=256" # Maximale Anzahl an Warteschlangen-Requests
+   Environment="OLLAMA_CONTEXT_LENGTH=4096" # Others: 2048, 4096, 8192, 12288, 32768, 131072
+   Environment="OLLAMA_FLASH_ATTENTION=1"
 
    [Install]
    WantedBy=default.target
