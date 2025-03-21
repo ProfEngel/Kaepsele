@@ -686,26 +686,28 @@ curl -fsSL https://ollama.com/install.sh | sh
 
 2. Fügen Sie die folgende Konfiguration ein:
    ```ini
-   [Unit]
-   Description=Ollama Service
-   After=network-online.target
+    [Unit]
+    Description=Ollama Service
+    After=network-online.target
+    
+    [Service]
+    ExecStart=/usr/local/bin/ollama serve
+    User=ollama
+    Group=ollama
+    Restart=always
+    RestartSec=3
+    Environment="PATH=/root/.cargo/bin:/usr/local/cuda/bin:/usr/local/cuda/bin:/root/miniconda3/bin:/root/miniconda3/condabin:/usr/local/sbin:/usr/local/bin:/us>
+    Environment="OLLAMA_HOST=0.0.0.0"
+    Environment="OLLAMA_MAX_LOADED_MODELS=1" # Maximale Anzahl gleichzeitig geladener Modelle. Hier nur Gemma3. Beim anderen nur Phi4     
+    Environment="OLLAMA_NUM_PARALLEL=13" # Maximale Anzahl paralleler Requests pro Modell, testen mit ollama ps. Ist abhängig von der Kontextlänge (siehe unten >
+    Environment="OLLAMA_KEEP_ALIVE=-1" #-1 für Modell im Memory belassen, sonst z.B. 10m oder 24h etc.
+    Environment="OLLAMA_MAX_QUEUE=256" # Maximale Anzahl an Warteschlangen-Requests
+    Environment="OLLAMA_CONTEXT_LENGTH=2048" # Others: 2048, 4096, 8192, 12288, 32768, 131072
+    #Environment="OLLAMA_FLASH_ATTENTION=1" #Testen. Im Falle von Gemma3 ist es aktuell (Ollama0.62) langsamer
+    
+    [Install]
+    WantedBy=default.target
 
-   [Service]
-   ExecStart=/usr/local/bin/ollama serve
-   User=ollama
-   Group=ollama
-   Restart=always
-   RestartSec=3
-   Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
-   Environment="OLLAMA_HOST=0.0.0.0"
-   Environment="OLLAMA_MAX_LOADED_MODELS=3" # Maximale Anzahl gleichzeitig geladener Modelle
-   Environment="OLLAMA_NUM_PARALLEL=20" # Maximale Anzahl paralleler Requests pro Modell
-   Environment="OLLAMA_MAX_QUEUE=256" # Maximale Anzahl an Warteschlangen-Requests
-   Environment="OLLAMA_CONTEXT_LENGTH=4096" # Others: 2048, 4096, 8192, 12288, 32768, 131072
-   Environment="OLLAMA_FLASH_ATTENTION=1"
-
-   [Install]
-   WantedBy=default.target
    ```
 
 3. Laden Sie die Änderungen neu und starten Sie den Dienst:
