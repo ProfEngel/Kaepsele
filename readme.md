@@ -58,6 +58,7 @@ Die kontinuierliche Weiterentwicklung (5) stellt sicher, dass KÄPSELE immer auf
 3. **Diverse Beispiel-Eingabeprompts** für verschiedene Anwendungsfälle
 4. **Eingabeprompts für Data Science und Python-Vorlesungen** - Direkt einsetzbar im Unterricht
 5. **CodeInterpreter-Optimierung** - Der CodeInterpreter in OpenWebUI funktioniert optimal mit den hier bereitgestellten Prompts
+6. **Inferenz-Geschwindigkeitstests** - Unter dem Ordner Benchmark Sprachmodelle finden sich Geschwindigkeitstests für verschiedene Grafikkarten und Sprachmodelle.
 
 ## 💖 KÄPSELE unterstützen
 
