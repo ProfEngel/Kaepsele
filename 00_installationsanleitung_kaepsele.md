@@ -45,7 +45,6 @@ Die folgenden Ports müssen je nach Nutzungsszenario konfiguriert werden:
 | **4000** | SearXNG | Metasuchmaschine | ⚠️ Optional extern |
 | **3000** | Perplexica | Frontend | ⚠️ Optional extern |
 | **3001** | Perplexica Backend | Backend-Service | ❌ Nur lokal |
-| **7870** | StableDiffusion Forge | Bilderstellung | ⚠️ Optional extern |
 | **9099** | Pipeline-Docker | OpenWebUI Pipelines | ❌ Nur lokal |
 
 **Wichtige Hinweise:**
@@ -61,7 +60,6 @@ sudo ufw allow 80/tcp    # OpenWebUI
 # Optional für direkte Service-Nutzung (nicht empfohlen):
 # sudo ufw allow 4000/tcp  # SearXNG
 # sudo ufw allow 3000/tcp  # Perplexica
-# sudo ufw allow 7870/tcp  # StableDiffusion
 ```
 
 ## 1. Installation relevanter OS-Updates und Tools
@@ -381,14 +379,51 @@ docker run -d \
 
 ## 7.2 Option B: vLLM (Höhere Performance)
 
+⚠️ **HARDWARE-ANFORDERUNG:** 
+- GPT-OSS 20B erfordert moderne NVIDIA Blackwell GPUs (H100, H200 oder neuere Architekturen)
+- Bei älteren GPUs (RTX 40xx, RTX 30xx) können Kompatibilitätsprobleme auftreten
+- Weitere Informationen: [vLLM GPT-OSS Documentation](https://docs.vllm.ai/projects/recipes/en/latest/OpenAI/GPT-OSS.html)
+
 ### Docker-Image ziehen
 ```bash
 docker pull vllm/vllm-openai:latest
 mkdir -p /root/.cache/huggingface
 ```
 
-### vLLM mit quantisiertem Modell starten
+### vLLM mit GPT-OSS 20B starten
 ```bash
+docker run -d \
+  --gpus all \
+  --shm-size 32g \
+  --restart unless-stopped \
+  -p 8000:8000 \
+  -v /root/.cache/huggingface:/root/.cache/huggingface \
+  -e HF_HUB_ENABLE_HF_TRANSFER=1 \
+  --name vllm-gpt-oss \
+  vllm/vllm-openai:latest \
+  --model microsoft/GPT-OSS-20B \
+  --max-model-len 8192 \
+  --port 8000 \
+  --api-key sk-ERSETZEN-MIT-SICHEREM-API-KEY \
+  --max-num-seqs 4 \
+  --gpu-memory-utilization 0.90 \
+  --enforce-eager \
+  --disable-custom-all-reduce
+```
+
+**Parameter-Erklärung:**
+- `--enforce-eager`: Erzwingt Eager-Modus für bessere Kompatibilität
+- `--disable-custom-all-reduce`: Deaktiviert benutzerdefinierte All-Reduce-Operationen
+- `--shm-size 32g`: Erhöhter Shared Memory für große Modelle
+- `--max-num-seqs 4`: Reduzierte parallele Sequenzen wegen Modellgröße
+
+⚠️ **SICHERHEITSHINWEIS:** 
+- Ersetzen Sie `sk-ERSETZEN-MIT-SICHEREM-API-KEY` durch einen eigenen API-Schlüssel!
+- Verwenden Sie denselben Schlüssel wie bei Llama.cpp, wenn beide nicht gleichzeitig laufen
+
+### Alternative für ältere GPUs (Llama 3.1 8B)
+```bash
+# Fallback für RTX 40xx/30xx GPUs
 docker run -d \
   --gpus all \
   --shm-size 16g \
@@ -396,7 +431,7 @@ docker run -d \
   -p 8000:8000 \
   -v /root/.cache/huggingface:/root/.cache/huggingface \
   -e HF_HUB_ENABLE_HF_TRANSFER=1 \
-  --name vllm-server \
+  --name vllm-llama-fallback \
   vllm/vllm-openai:latest \
   --model hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4 \
   --max-model-len 4096 \
@@ -406,32 +441,295 @@ docker run -d \
   --gpu-memory-utilization 0.95
 ```
 
-⚠️ **SICHERHEITSHINWEIS:** 
-- Ersetzen Sie `sk-ERSETZEN-MIT-SICHEREM-API-KEY` durch einen eigenen API-Schlüssel!
-- Verwenden Sie denselben Schlüssel wie bei Llama.cpp, wenn beide nicht gleichzeitig laufen
+## 7.3 Option C: SG-Lang (Alternative mit Qwen3-30B)
 
-## 7.3 Option C: SG-Lang (Alternative)
+⚠️ **MODELL-HINWEIS:** 
+- Qwen3-30B ist ein hochmodernes Mixture-of-Experts (MoE) Modell mit "Thinking"-Capabilities
+- Erfordert signifikante GPU-Ressourcen (min. 48GB VRAM empfohlen)
+- Weitere Informationen: [Qwen SGLang Deployment Guide](https://qwen.readthedocs.io/en/latest/deployment/sglang.html)
 
+### SGLang Cache-Ordner vorbereiten
 ```bash
+mkdir -p /root/sglang/cache
+```
+
+### SGLang mit Qwen3-30B starten
+```bash
+docker run -d \
+  --gpus all \
+  --shm-size 64g \
+  -p 8000:8000 \
+  -v /root/sglang/cache:/root/.cache/huggingface \
+  --env "HF_TOKEN=hf_ERSETZEN-MIT-HUGGINGFACE-TOKEN" \
+  --name sglang-qwen3 \
+  --restart always \
+  lmsysorg/sglang:latest \
+  python3 -m sglang.launch_server \
+  --model-path Qwen/Qwen3-30B-Instruct \
+  --api-key sk-ERSETZEN-MIT-SICHEREM-API-KEY \
+  --host 0.0.0.0 \
+  --port 8000 \
+  --mem-fraction-static 0.85 \
+  --max-running-requests 4 \
+  --context-length 32768
+```
+
+**Parameter-Erklärung:**
+- `--shm-size 64g`: Erhöhter Shared Memory für das große MoE-Modell
+- `--mem-fraction-static 0.85`: GPU-Memory-Reservierung für das Modell
+- `--max-running-requests 4`: Begrenzte parallele Anfragen wegen Modellgröße
+- `--context-length 32768`: Großes Kontextfenster für komplexe Reasoning-Tasks
+
+### Alternative für kleinere GPUs (Qwen2.5-14B)
+```bash
+# Fallback für GPUs mit weniger als 48GB VRAM
 docker run -d \
   --gpus all \
   --shm-size 32g \
   -p 8000:8000 \
   -v /root/sglang/cache:/root/.cache/huggingface \
   --env "HF_TOKEN=hf_ERSETZEN-MIT-HUGGINGFACE-TOKEN" \
-  --name sglang-server \
+  --name sglang-qwen2-fallback \
   --restart always \
   lmsysorg/sglang:latest \
   python3 -m sglang.launch_server \
-  --model-path hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4 \
+  --model-path Qwen/Qwen2.5-14B-Instruct \
   --api-key sk-ERSETZEN-MIT-SICHEREM-API-KEY \
   --host 0.0.0.0 \
-  --port 8000
+  --port 8000 \
+  --mem-fraction-static 0.90 \
+  --max-running-requests 8
 ```
 
 ⚠️ **SICHERHEITSHINWEIS:** 
 - `HF_TOKEN`: Ersetzen Sie mit Ihrem HuggingFace-Token von https://huggingface.co/settings/tokens
 - `api-key`: Ersetzen Sie mit einem eigenen sicheren API-Schlüssel für die Zugriffskontrolle
+- Für Qwen3-30B ist ein HuggingFace-Account mit Zugriff auf Gated Models erforderlich
+
+## 7.4 Option D: Ollama (Lokal optimiert)
+
+### Installation
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+### Empfohlene Modelle installieren
+```bash
+# Multimodales Vision-Modell
+ollama pull gemma3n:e4b
+
+# SOTA Embedding-Modell
+ollama pull jeffh/intfloat-multilingual-e5-large:q8_0
+# alternativ
+ollama pull embeddinggemma
+
+# Generatives Top MoE-KI-Modell
+ollama pull qwen3:30b
+ollama pull gpt-oss:20b
+
+# Weitere empfohlene Modelle
+ollama pull gemma3:12b
+ollama pull gpt-oss:120b
+ollama pull qwen3:4b-thinking-2507-q4_K_M
+ollama pull qwen3:30b-a3b-thinking-2507-q8_0
+
+```
+
+### Ollama-Service konfigurieren
+```bash
+sudo nano /etc/systemd/system/ollama.service
+```
+
+```ini
+[Unit]
+Description=Ollama Service
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/ollama serve
+User=ollama
+Group=ollama
+Restart=always
+RestartSec=3
+Environment="PATH=/usr/local/cuda/bin:/usr/local/bin:/usr/bin:/bin"
+Environment="OLLAMA_HOST=0.0.0.0"
+Environment="OLLAMA_MAX_LOADED_MODELS=2"
+Environment="OLLAMA_NUM_PARALLEL=2"
+Environment="OLLAMA_KEEP_ALIVE=-1"
+Environment="OLLAMA_MAX_QUEUE=256"
+
+[Install]
+WantedBy=default.target
+```
+
+**Parameter-Erklärung:**
+- `OLLAMA_HOST=0.0.0.0`: Erlaubt externe Verbindungen
+- `OLLAMA_MAX_LOADED_MODELS=2`: Maximal 2 Modelle gleichzeitig im Speicher
+- `OLLAMA_NUM_PARALLEL=2`: Maximal 2 parallele Anfragen
+- `OLLAMA_KEEP_ALIVE=-1`: Modelle niemals entladen (Performance-Optimierung)
+- `OLLAMA_MAX_QUEUE=256`: Maximale Warteschlangengröße
+
+### Service neu starten
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart ollama
+sudo systemctl enable ollama
+```
+
+### Grundlegende Ollama-Befehle
+```bash
+# Verfügbare Modelle anzeigen
+ollama list
+
+# Laufende Modelle anzeigen
+ollama ps
+
+# Modell interaktiv testen
+ollama run phi4 --verbose
+
+# Modell stoppen
+ollama stop phi4
+
+# Modell entfernen
+ollama rm phi4
+
+# Modell herunterladen ohne starten
+ollama pull llama3.1:8b
+
+# Modell-Informationen anzeigen
+ollama show phi4
+
+# Alle laufenden Modelle stoppen
+ollama ps --format json | jq -r '.[].name' | xargs -I {} ollama stop {}
+```
+
+### Erweiterte Modell-Anpassung mit Modelfiles
+
+#### Modell mit angepasstem Kontext erstellen
+
+1. **Modelfile erstellen:**
+```bash
+nano Modelfile-phi4-65k
+```
+
+```modelfile
+# Modelfile für Phi4 mit 65k Kontext
+FROM phi4:latest
+PARAMETER num_ctx 65536
+PARAMETER temperature 0.7
+PARAMETER top_p 0.9
+PARAMETER repeat_penalty 1.1
+PARAMETER top_k 40
+
+# System-Prompt anpassen (optional)
+SYSTEM "Du bist ein hilfsreicher KI-Assistent mit einem großen Kontextfenster. Nutze den verfügbaren Kontext optimal aus."
+
+# Template für deutsche Antworten (optional)
+TEMPLATE """{{ if .System }}<|system|>
+{{ .System }}<|end|>
+{{ end }}{{ if .Prompt }}<|user|>
+{{ .Prompt }}<|end|>
+{{ end }}<|assistant|>
+{{ .Response }}<|end|>
+"""
+```
+
+2. **Angepasstes Modell erstellen:**
+```bash
+ollama create -f Modelfile-phi4-65k phi4-65k
+```
+
+3. **Neues Modell testen:**
+```bash
+ollama run phi4-65k --verbose
+```
+
+#### Weitere Modelfile-Parameter
+
+```modelfile
+# Häufig verwendete Parameter
+PARAMETER temperature 0.1          # Kreativität (0.0-1.0)
+PARAMETER top_p 0.9               # Nucleus Sampling
+PARAMETER top_k 40                # Top-K Sampling
+PARAMETER repeat_penalty 1.1      # Wiederholungsstrafe
+PARAMETER num_predict 2048        # Max. Tokens der Antwort
+PARAMETER num_ctx 4096            # Kontext-Fenster
+PARAMETER stop "<|endoftext|>"    # Stop-Token
+PARAMETER num_gpu 0               # GPU-Layer (0 = alle)
+PARAMETER num_thread 8            # CPU-Threads
+PARAMETER mirostat 0              # Mirostat-Algorithmus
+PARAMETER mirostat_eta 0.1        # Mirostat Lernrate
+PARAMETER mirostat_tau 5.0        # Mirostat Ziel-Entropie
+```
+
+#### Modell mit benutzerdefinierten Prompts
+
+```bash
+nano Modelfile-coder
+```
+
+```modelfile
+FROM deepseek-coder-v2:16b
+PARAMETER temperature 0.1
+PARAMETER num_ctx 32768
+
+SYSTEM """Du bist ein erfahrener Softwareentwickler. 
+Schreibe sauberen, gut dokumentierten Code. 
+Erkläre komplexe Konzepte verständlich.
+Verwende Best Practices und moderne Standards."""
+
+TEMPLATE """### Instruction:
+{{ .Prompt }}
+
+### Response:
+{{ .Response }}"""
+```
+
+```bash
+ollama create -f Modelfile-coder deepseek-coder-optimized
+```
+
+### Performance-Monitoring und Troubleshooting
+
+```bash
+# Ollama-Service Status prüfen
+sudo systemctl status ollama
+
+# Logs anzeigen
+sudo journalctl -u ollama -f
+
+# GPU-Nutzung überwachen
+nvidia-smi -l 1
+
+# Speicherverbrauch prüfen
+ollama ps --format json | jq '.[] | {name: .name, size: .size_vram}'
+
+# Modell-Details ausgeben
+ollama show phi4 --format json
+
+# Verfügbare Tags für ein Modell anzeigen
+curl http://localhost:11434/api/tags | jq '.models[].name'
+```
+
+### Batch-Verarbeitung und API-Nutzung
+
+```bash
+# Modell über API testen
+curl http://localhost:11434/api/generate -d '{
+  "model": "phi4",
+  "prompt": "Erkläre maschinelles Lernen in 3 Sätzen:",
+  "stream": false
+}'
+
+# Chat-API verwenden
+curl http://localhost:11434/api/chat -d '{
+  "model": "phi4",
+  "messages": [
+    {"role": "user", "content": "Hallo, wie geht es dir?"}
+  ],
+  "stream": false
+}'
+```
 
 ## 8. Einrichtung von SearXNG (Metasuchmaschine)
 
@@ -596,157 +894,7 @@ docker compose up -d
 - **Lokal**: `http://localhost:3000`
 - **Remote**: `http://<SERVER-IP>:3000`
 
-## 10. Installation von Stable Diffusion Forge
-
-### Repository klonen und Umgebung einrichten
-```bash
-cd /root/docker
-git clone https://github.com/lllyasviel/stable-diffusion-webui-forge.git
-cd stable-diffusion-webui-forge
-
-# Conda-Umgebung erstellen
-conda create --name sd-forge python=3.10 -y
-conda activate sd-forge
-
-# Abhängigkeiten installieren
-pip install -r requirements.txt
-```
-
-### webui.sh anpassen (Root-Check deaktivieren)
-```bash
-nano webui.sh
-```
-
-Kommentieren Sie die Root-Überprüfung aus:
-```bash
-# if [ "$EUID" -eq 0 ]; then
-#   echo "This script must not be launched as root, aborting..."
-#   exit 1
-# fi
-```
-
-### Modelle herunterladen
-```bash
-# FLUX-Modell
-cd models/Stable-diffusion
-wget -O flux1-dev-bnb-nf4.safetensors \
-  "https://huggingface.co/lllyasviel/flux1-dev-bnb-nf4/resolve/main/flux1-dev-bnb-nf4.safetensors"
-
-# SDXL-Modell
-wget -O juggernautXL_v8Rundiffusion.safetensors \
-  "https://huggingface.co/RunDiffusion/Juggernaut-XL-v8/resolve/main/juggernautXL_v8Rundiffusion.safetensors"
-```
-
-### Systemd-Service für automatischen Start
-
-```bash
-sudo nano /etc/systemd/system/sd-forge.service
-```
-
-```ini
-[Unit]
-Description=Stable Diffusion Forge Service
-After=network.target
-
-[Service]
-Type=simple
-User=root
-WorkingDirectory=/root/docker/stable-diffusion-webui-forge
-ExecStart=/bin/bash -c "source /root/miniconda3/etc/profile.d/conda.sh && conda activate sd-forge && ./webui.sh --listen --port 7870 --api --api-auth BENUTZERNAME:PASSWORT"
-Restart=always
-Environment="PATH=/root/miniconda3/envs/sd-forge/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-
-[Install]
-WantedBy=multi-user.target
-```
-
-⚠️ **SICHERHEITSHINWEIS:** 
-- Ersetzen Sie `BENUTZERNAME:PASSWORT` durch eigene, sichere Anmeldedaten!
-- Beispiel: `admin:$(openssl rand -base64 16)`
-- Diese Credentials werden für den WebUI-Zugriff benötigt - notieren Sie sie!
-
-### Service aktivieren
-```bash
-sudo systemctl daemon-reload
-sudo systemctl enable sd-forge.service
-sudo systemctl start sd-forge.service
-
-# Status prüfen
-sudo systemctl status sd-forge.service
-```
-
-## 11. Installation und Nutzung von Ollama
-
-### Installation
-```bash
-curl -fsSL https://ollama.com/install.sh | sh
-```
-
-### Empfohlene Modelle installieren
-```bash
-# Multimodales Vision-Modell
-ollama pull llama3.2-vision
-
-# SOTA Embedding-Modell
-ollama pull granite-embedding:278m
-
-# Vision-Modell (Alternative)
-ollama pull minicpm-v
-
-# Generatives KI-Modell
-ollama pull phi4
-```
-
-### Ollama-Service konfigurieren
-```bash
-sudo nano /etc/systemd/system/ollama.service
-```
-
-```ini
-[Unit]
-Description=Ollama Service
-After=network-online.target
-
-[Service]
-ExecStart=/usr/local/bin/ollama serve
-User=ollama
-Group=ollama
-Restart=always
-RestartSec=3
-Environment="PATH=/usr/local/cuda/bin:/usr/local/bin:/usr/bin:/bin"
-Environment="OLLAMA_HOST=0.0.0.0"
-Environment="OLLAMA_MAX_LOADED_MODELS=2"
-Environment="OLLAMA_NUM_PARALLEL=4"
-Environment="OLLAMA_KEEP_ALIVE=5m"
-Environment="OLLAMA_MAX_QUEUE=256"
-
-[Install]
-WantedBy=default.target
-```
-
-### Service neu starten
-```bash
-sudo systemctl daemon-reload
-sudo systemctl restart ollama
-sudo systemctl enable ollama
-```
-
-### Nützliche Ollama-Befehle
-```bash
-# Verfügbare Modelle anzeigen
-ollama list
-
-# Laufende Modelle anzeigen
-ollama ps
-
-# Modell testen
-ollama run phi4 --verbose
-
-# Modell entfernen
-ollama rm modelname
-```
-
-## 12. OpenWebUI Konfiguration
+## 10. OpenWebUI Konfiguration
 
 ### Modellverbindungen einrichten
 
@@ -781,16 +929,7 @@ ollama rm modelname
 - **Ergebnisse**: 5
 - **Gleichzeitige Anfragen**: 10
 
-### Bildgenerierung einrichten
-
-**Admin > Einstellungen > Images**:
-- **Engine**: Automatic1111
-- **Base URL**: `http://host.docker.internal:7870/`
-- **API Auth**: Die bei Stable Diffusion gesetzten Credentials
-
-⚠️ **HINWEIS:** Verwenden Sie die Anmeldedaten, die Sie im Stable Diffusion Systemd-Service festgelegt haben.
-
-## 13. Wartung und Troubleshooting
+## 11. Wartung und Troubleshooting
 
 ### Docker-Container verwalten
 ```bash
@@ -847,7 +986,7 @@ htop
 netstat -tulpn | grep LISTEN
 ```
 
-## 14. Sicherheitsempfehlungen
+## 12. Sicherheitsempfehlungen
 
 1. **Firewall konfigurieren**: Nur notwendige Ports öffnen
 2. **Sichere API-Schlüssel**: Lange, zufällige Schlüssel verwenden
@@ -856,7 +995,7 @@ netstat -tulpn | grep LISTEN
 5. **HTTPS einrichten**: Für Produktivumgebungen Reverse-Proxy mit SSL/TLS
 6. **Monitoring**: Log-Überwachung und Anomalie-Erkennung
 
-## 15. Performance-Optimierung
+## 13. Performance-Optimierung
 
 ### GPU-Memory Management
 ```bash
@@ -899,6 +1038,5 @@ Vor dem produktiven Einsatz müssen Sie folgende Platzhalter durch eigene, siche
 | **SG-Lang** | `hf_ERSETZEN-MIT-HUGGINGFACE-TOKEN` | HuggingFace-Zugriff | Von huggingface.co/settings/tokens |
 | **SG-Lang** | `sk-ERSETZEN-MIT-SICHEREM-API-KEY` | API-Authentifizierung | `echo "sk-$(openssl rand -hex 32)"` |
 | **SearXNG** | `ERSETZEN-MIT-ZUFAELLIGEM-SECRET-KEY` | Interne Verschlüsselung | `openssl rand -hex 32` |
-| **SD-Forge** | `BENUTZERNAME:PASSWORT` | WebUI-Zugriff | Eigene Wahl + `openssl rand -base64 16` |
 
 **Support:** Bei Fragen wenden Sie sich an das Projektteam der HfWU Nürtingen-Geislingen.
