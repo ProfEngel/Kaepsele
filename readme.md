@@ -11,8 +11,6 @@
 [![YouTube](https://img.shields.io/badge/YouTube-MatMaxEngel-red?logo=youtube&logoColor=white)](https://www.youtube.com/user/MatMaxEngel)
 [![Website](https://img.shields.io/badge/Website-opentuneweaver.com-blue?logo=googlechrome&logoColor=white)](https://opentuneweaver.com/)
 
-<img src="https://github.com/ProfEngel/Kaepsele/blob/main/assets/kaepsele_Schema.png" alt="Schema des Käpsele mit dem Hölderlin-Sprachmodell" height="600">
-
 Das **KÄPSELE** ist ein innovativer **MoE (Mixture of Experts) und Multi-Agenten-Chatbot**, der als KI-Tutor für die moderne Hochschullehre entwickelt wurde. Dieses **Tandemforschungsprojekt** im Rahmen des Digital Fellowship-Programms wird gefördert durch:
 
 <div align="right">
@@ -37,6 +35,9 @@ Das Projekt zielt darauf ab, einen bereits erfolgreich pilotierten KI-Tutor im g
 - **Skalierbarkeit** für weitere Hochschulen in Baden-Württemberg
 
 ## Systemarchitektur und Funktionsweise
+
+<img src="https://github.com/ProfEngel/Kaepsele/blob/main/assets/kaepsele_Schema.png" alt="Schema des Käpsele mit dem Hölderlin-Sprachmodell" height="600">
+
 
 Das KÄPSELE-System basiert auf einer durchdachten, containerisierten Architektur, die alle Komponenten nahtlos miteinander verbindet. Die gesamte Infrastruktur läuft vollständig in Docker-Containern (1), was eine einfache Bereitstellung, hohe Skalierbarkeit und unkomplizierte Wartung ermöglicht. Diese Containerisierung gewährleistet, dass das System sowohl lokal als auch in Cloud-Umgebungen zuverlässig funktioniert und sich problemlos auf verschiedene Hochschulinfrastrukturen übertragen lässt.
 
