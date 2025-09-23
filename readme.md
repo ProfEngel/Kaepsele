@@ -5,14 +5,28 @@
 Dies ist ein **Tandemprojekt** im Rahmen des Digital Fellowship-Programms, gefördert durch:
 
 <div align="right">
-  <img src="assets/mwk_logo_w2.png" alt="Ministry of Science, Research and Arts Logo" height="60">
-  <img src="assets/stifterverband_logo.jpg" alt="Stifterverband Logo" height="60">
+  <img src="https://media.githubusercontent.com/media/ProfEngel/OpenTuneWeaver/refs/heads/main/assets/mwk_logo_w2.png" alt="Ministry of Science, Research and Arts Logo" height="60">
+  <img src="https://media.githubusercontent.com/media/ProfEngel/OpenTuneWeaver/refs/heads/main/assets/stifterverband_logo.jpg" alt="Stifterverband Logo" height="60">
 </div>
 
 **Projektleitung:** Prof. Dr. Mathias Engel & Tobias Leiblein  
 **Institution:** Hochschule für Wirtschaft und Umwelt Nürtingen-Geislingen
 
 Dieses Projekt ist Teil des [Fellowship-Programms 2024](https://www.stifterverband.org/bwdigifellows/2024_engel_leiblein) und wird gefördert vom **Ministerium für Wissenschaft, Forschung und Kunst Baden-Württemberg (MWK)** sowie dem **Stifterverband Deutschland**.
+
+---
+
+## ⚠️ WICHTIGER SICHERHEITSHINWEIS
+
+**Diese Anleitung enthält Platzhalter für sensible Daten!**
+
+Alle API-Schlüssel, Tokens und Passwörter in dieser Anleitung sind **BEISPIELE** und müssen durch eigene, sichere Werte ersetzt werden:
+
+- Suchen Sie nach: `ERSETZEN-MIT-` in allen Code-Blöcken
+- Generieren Sie sichere Tokens mit: `openssl rand -hex 32`
+- Verwenden Sie einen Passwort-Manager für die Verwaltung
+- **NIEMALS** Beispiel-Credentials in Produktion verwenden!
+- Dokumentieren Sie Ihre Credentials sicher und getrennt vom System
 
 ---
 
@@ -245,13 +259,16 @@ docker run -d \
   --restart always \
   jupyter/datascience-notebook \
   start.sh jupyter notebook \
-  --NotebookApp.token='IhrSicheresToken123!' \
+  --NotebookApp.token='ERSETZEN-MIT-SICHEREM-TOKEN' \
   --NotebookApp.password='' \
   --NotebookApp.allow_origin='*' \
   --NotebookApp.disable_check_xsrf=True
 ```
 
-**Wichtig:** Ersetzen Sie `IhrSicheresToken123!` durch einen sicheren, zufälligen Token!
+⚠️ **SICHERHEITSHINWEIS:** 
+- Ersetzen Sie `ERSETZEN-MIT-SICHEREM-TOKEN` durch einen sicheren, zufälligen Token!
+- Beispiel für sicheren Token: `$(openssl rand -hex 32)` generiert einen 64-stelligen Hex-String
+- NIEMALS den Beispiel-Token in Produktion verwenden!
 
 #### 2. Bibliotheken installieren
 
@@ -314,7 +331,9 @@ docker run -d \
 2. Neue Verbindung hinzufügen (+)
 3. Konfigurieren:
    - **API-URL**: `http://host.docker.internal:9099`
-   - **API-Schlüssel**: `0p3n-w3bu!`
+   - **API-Schlüssel**: `ERSETZEN-MIT-EIGENEM-API-KEY`
+
+⚠️ **SICHERHEITSHINWEIS:** Der Schlüssel `0p3n-w3bu!` ist nur ein Beispiel! Verwenden Sie einen eigenen, sicheren API-Schlüssel.
 
 ## 7. Bereitstellung der Sprachmodelle
 
@@ -343,11 +362,16 @@ docker run -d \
   --host 0.0.0.0 \
   --port 8000 \
   --n-gpu-layers -1 \
-  --api-key sk-your-secure-api-key-here \
+  --api-key sk-ERSETZEN-MIT-SICHEREM-API-KEY \
   --parallel 4 \
   --ctx-size 4096 \
   --flash-attn
 ```
+
+⚠️ **SICHERHEITSHINWEIS:** 
+- Ersetzen Sie `sk-ERSETZEN-MIT-SICHEREM-API-KEY` durch einen eigenen, sicheren API-Schlüssel!
+- Beispiel für sicheren Schlüssel generieren: `echo "sk-$(openssl rand -hex 32)"`
+- Dieser Schlüssel wird für die Authentifizierung bei API-Anfragen benötigt
 
 **Parameter-Erklärung:**
 - `--n-gpu-layers -1`: Alle Layer auf GPU (maximale Performance)
@@ -377,10 +401,14 @@ docker run -d \
   --model hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4 \
   --max-model-len 4096 \
   --port 8000 \
-  --api-key sk-your-secure-api-key-here \
+  --api-key sk-ERSETZEN-MIT-SICHEREM-API-KEY \
   --max-num-seqs 8 \
   --gpu-memory-utilization 0.95
 ```
+
+⚠️ **SICHERHEITSHINWEIS:** 
+- Ersetzen Sie `sk-ERSETZEN-MIT-SICHEREM-API-KEY` durch einen eigenen API-Schlüssel!
+- Verwenden Sie denselben Schlüssel wie bei Llama.cpp, wenn beide nicht gleichzeitig laufen
 
 ## 7.3 Option C: SG-Lang (Alternative)
 
@@ -390,16 +418,20 @@ docker run -d \
   --shm-size 32g \
   -p 8000:8000 \
   -v /root/sglang/cache:/root/.cache/huggingface \
-  --env "HF_TOKEN=<Ihr_HF_Token>" \
+  --env "HF_TOKEN=hf_ERSETZEN-MIT-HUGGINGFACE-TOKEN" \
   --name sglang-server \
   --restart always \
   lmsysorg/sglang:latest \
   python3 -m sglang.launch_server \
   --model-path hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4 \
-  --api-key sk-your-secure-api-key-here \
+  --api-key sk-ERSETZEN-MIT-SICHEREM-API-KEY \
   --host 0.0.0.0 \
   --port 8000
 ```
+
+⚠️ **SICHERHEITSHINWEIS:** 
+- `HF_TOKEN`: Ersetzen Sie mit Ihrem HuggingFace-Token von https://huggingface.co/settings/tokens
+- `api-key`: Ersetzen Sie mit einem eigenen sicheren API-Schlüssel für die Zugriffskontrolle
 
 ## 8. Einrichtung von SearXNG (Metasuchmaschine)
 
@@ -414,7 +446,7 @@ nano /root/docker/searxng/settings.yml
 use_default_settings: true
 
 server:
-  secret_key: "f9e603d4191caab069b021fa0568391a33c8a837b470892c64461b5dd12464f4"
+  secret_key: "ERSETZEN-MIT-ZUFAELLIGEM-SECRET-KEY"
   limiter: false
   image_proxy: true
   port: 8080
@@ -442,6 +474,11 @@ engines:
     engine: wikipedia
     shortcut: wp
 ```
+
+⚠️ **SICHERHEITSHINWEIS:** 
+- Ersetzen Sie `ERSETZEN-MIT-ZUFAELLIGEM-SECRET-KEY` durch einen zufälligen Schlüssel!
+- Generieren mit: `openssl rand -hex 32`
+- Dieser Schlüssel wird für die interne Verschlüsselung verwendet
 
 ### SearXNG Container starten
 ```bash
@@ -615,7 +652,7 @@ After=network.target
 Type=simple
 User=root
 WorkingDirectory=/root/docker/stable-diffusion-webui-forge
-ExecStart=/bin/bash -c "source /root/miniconda3/etc/profile.d/conda.sh && conda activate sd-forge && ./webui.sh --listen --port 7870 --api --api-auth user:password"
+ExecStart=/bin/bash -c "source /root/miniconda3/etc/profile.d/conda.sh && conda activate sd-forge && ./webui.sh --listen --port 7870 --api --api-auth BENUTZERNAME:PASSWORT"
 Restart=always
 Environment="PATH=/root/miniconda3/envs/sd-forge/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
@@ -623,7 +660,10 @@ Environment="PATH=/root/miniconda3/envs/sd-forge/bin:/usr/local/sbin:/usr/local/
 WantedBy=multi-user.target
 ```
 
-**Wichtig:** Ersetzen Sie `user:password` durch sichere Anmeldedaten!
+⚠️ **SICHERHEITSHINWEIS:** 
+- Ersetzen Sie `BENUTZERNAME:PASSWORT` durch eigene, sichere Anmeldedaten!
+- Beispiel: `admin:$(openssl rand -base64 16)`
+- Diese Credentials werden für den WebUI-Zugriff benötigt - notieren Sie sie!
 
 ### Service aktivieren
 ```bash
@@ -714,10 +754,12 @@ ollama rm modelname
 
 2. **OpenAI API** (für vLLM/Llama.cpp):
    - **URL**: `http://host.docker.internal:8000/v1`
-   - **API-Schlüssel**: Der oben gesetzte Schlüssel
+   - **API-Schlüssel**: Der oben bei vLLM/Llama.cpp gesetzte Schlüssel
 
 3. **Ollama-Verbindung**:
    - **URL**: `http://host.docker.internal:11434`
+
+⚠️ **HINWEIS:** Verwenden Sie hier den API-Schlüssel, den Sie bei der Einrichtung von vLLM oder Llama.cpp festgelegt haben.
 
 ### Embedding-Modell konfigurieren
 
@@ -744,7 +786,9 @@ ollama rm modelname
 **Admin > Einstellungen > Images**:
 - **Engine**: Automatic1111
 - **Base URL**: `http://host.docker.internal:7870/`
-- **API Auth**: Die oben gesetzten Credentials
+- **API Auth**: Die bei Stable Diffusion gesetzten Credentials
+
+⚠️ **HINWEIS:** Verwenden Sie die Anmeldedaten, die Sie im Stable Diffusion Systemd-Service festgelegt haben.
 
 ## 13. Wartung und Troubleshooting
 
@@ -841,5 +885,20 @@ docker run --network ai-network ...
 ---
 
 **Hinweis:** Diese Anleitung ist für Ubuntu 22.04/24.04 LTS optimiert. Bei anderen Distributionen können Anpassungen notwendig sein.
+
+## 📋 Checkliste: Zu ersetzende Sicherheits-Credentials
+
+Vor dem produktiven Einsatz müssen Sie folgende Platzhalter durch eigene, sichere Werte ersetzen:
+
+| Service | Platzhalter | Verwendung | Generierung |
+|---------|------------|------------|-------------|
+| **Jupyter** | `ERSETZEN-MIT-SICHEREM-TOKEN` | Notebook-Zugriff | `openssl rand -hex 32` |
+| **Pipelines** | `ERSETZEN-MIT-EIGENEM-API-KEY` | API-Authentifizierung | `openssl rand -hex 24` |
+| **Llama.cpp** | `sk-ERSETZEN-MIT-SICHEREM-API-KEY` | Model-API-Zugriff | `echo "sk-$(openssl rand -hex 32)"` |
+| **vLLM** | `sk-ERSETZEN-MIT-SICHEREM-API-KEY` | Model-API-Zugriff | Gleicher wie Llama.cpp |
+| **SG-Lang** | `hf_ERSETZEN-MIT-HUGGINGFACE-TOKEN` | HuggingFace-Zugriff | Von huggingface.co/settings/tokens |
+| **SG-Lang** | `sk-ERSETZEN-MIT-SICHEREM-API-KEY` | API-Authentifizierung | `echo "sk-$(openssl rand -hex 32)"` |
+| **SearXNG** | `ERSETZEN-MIT-ZUFAELLIGEM-SECRET-KEY` | Interne Verschlüsselung | `openssl rand -hex 32` |
+| **SD-Forge** | `BENUTZERNAME:PASSWORT` | WebUI-Zugriff | Eigene Wahl + `openssl rand -base64 16` |
 
 **Support:** Bei Fragen wenden Sie sich an das Projektteam der HfWU Nürtingen-Geislingen.
