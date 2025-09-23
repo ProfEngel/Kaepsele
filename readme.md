@@ -11,8 +11,8 @@
 [![YouTube](https://img.shields.io/badge/YouTube-MatMaxEngel-red?logo=youtube&logoColor=white)](https://www.youtube.com/user/MatMaxEngel)
 [![Website](https://img.shields.io/badge/Website-opentuneweaver.com-blue?logo=googlechrome&logoColor=white)](https://opentuneweaver.com/)
 
+<img src="https://github.com/ProfEngel/Kaepsele/blob/main/assets/kaepsele_Schema.png" alt="Schema des Käpsele mit dem Hölderlin-Sprachmodell" height="200">
 
-![Schema des Käpsele mit dem Hölderlin-Sprachmodell](assets/Kaepsele_Schema.png)
 
 Das Käpsele ist ein **Tandemforschungsprojekt** im Rahmen des Digital Fellowship-Programms und wurde gefördert durch:
 
