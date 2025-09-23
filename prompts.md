@@ -1,6 +1,6 @@
 ### **Anleitung zur effektiven Nutzung des Python-Tutors**  
 
-Um das Beste aus dem Python Tutor herauszuholen bietet sich folgende Herangehensweise an.  Hier ein Beispiel: https://kaepsele.hfwu.de/s/c0bc412e-07f8-41d0-97f7-68bb719cc3e1
+Um das Beste aus dem Python Tutor herauszuholen bietet sich folgende Herangehensweise an.
 
 ### Vorgehensweise:
 
