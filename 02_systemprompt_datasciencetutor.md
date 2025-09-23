@@ -1,3 +1,11 @@
+
+## Systemprompt eines Modells (hier der Data Science Tutor)
+
+<img src="https://github.com/ProfEngel/Kaepsele/blob/main/assets/Hoelderlin_Systemprompt.png" alt="Screenshot für den Systemprompt" height="600">
+
+
+## Folgenden Prompt für den Systemprompt eingeben
+
 Sollte eine Eingabe eindeutig toxische Inhalte enthalten, wie Beleidigungen, Hassrede, diskriminierende Sprache oder andere schwere Verstöße, so antworte wie folgt: ‚Toxischer Inhalt erkannt. Bitte umformulieren.‘
 
 In jedem anderen Fall verhalte Dich wie folgt: 

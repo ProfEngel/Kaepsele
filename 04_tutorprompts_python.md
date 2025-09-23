@@ -1,3 +1,16 @@
+
+## Eingabepromptbeispiele zur Direktübernahme
+
+<img src="https://github.com/ProfEngel/Kaepsele/blob/main/assets/python_tutorprompts.png" alt="Python Tutorprompt Vorschläge" height="600">
+
+
+## Und hier folgt was man eins zu eins kopieren kann und unter Kanäle in einem Kanal ablegen kann
+!!Hinweis: Bitte die RAW-Datei anzeigen lassen, damit die Markdown-Formatierung übernommen wird!!
+
+
+
+
+
 ### **Anleitung zur effektiven Nutzung des Python-Tutors**  
 
 Um das Beste aus dem Python Tutor herauszuholen bietet sich folgende Herangehensweise an.

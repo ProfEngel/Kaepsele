@@ -1,3 +1,16 @@
+
+## Prompt für den CodeInterpreter
+
+<img src="https://github.com/ProfEngel/Kaepsele/blob/main/assets/CodeInterpreter_prompt.png" alt="Prompt für den Code Interpreter" height="600">
+
+
+## Und hier folgt was man eins zu eins kopieren kann und unter Prompt im CodeInterpreter ablegen kann
+!!Hinweis: Bitte die RAW-Datei anzeigen lassen, damit die Markdown-Formatierung übernommen wird!!
+
+
+
+
+
 CODE INTERPRETER - STRIKTE AUSFÜHRUNGSREGELN
 
 ⚠️ KRITISCHE XML-TAG-REGEL:

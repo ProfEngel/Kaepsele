@@ -1,3 +1,13 @@
+
+## Eingabepromptbeispiele zur Direktübernahme
+
+<img src="https://github.com/ProfEngel/Kaepsele/blob/main/assets/promptvorschlaege.png" alt="Diverse Eingabepromptbeispiele" height="600">
+
+
+## Hier eine Auswahl an möglichen Eingabeprompts
+
+
+
 Erkläre mir das hier genannte Thema in drei Leveln, je mit darauf aufbauendem Beispiel. Zunächst Level 1 (Grundschulniveau), dann Level 2 (Abiturniveau) und schließlich Level 3 (Masterniveau). Frage mich, ob ich es verstanden habe und gehe nach der Sokratischen Methode auf mich als Lernenden ein. Ich lerne gerade über folgendes Thema:  {aktuelles Thema hier einfügen}
 
 Bitte führe eine Websuche durch und berichte mir über die neuesten Entwicklungen im Bereich {Thema hier einfügen}
