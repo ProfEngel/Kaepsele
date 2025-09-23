@@ -5,8 +5,8 @@
 Dies ist ein **Tandemprojekt** im Rahmen des Digital Fellowship-Programms, gefördert durch:
 
 <div align="right">
-  <img src="https://media.githubusercontent.com/media/ProfEngel/OpenTuneWeaver/refs/heads/main/assets/mwk_logo_w2.png" alt="Ministry of Science, Research and Arts Logo" height="60">
-  <img src="https://media.githubusercontent.com/media/ProfEngel/OpenTuneWeaver/refs/heads/main/assets/stifterverband_logo.jpg" alt="Stifterverband Logo" height="60">
+  <img src="https://github.com/ProfEngel/OpenTuneWeaver/blob/main/assets/mwk_logo_w2.png" alt="Ministry of Science, Research and Arts Logo" height="60">
+  <img src="https://github.com/ProfEngel/OpenTuneWeaver/blob/main/assets/stifterverband_logo.jpg" alt="Stifterverband Logo" height="60">
 </div>
 
 **Projektleitung:** Prof. Dr. Mathias Engel & Tobias Leiblein  
