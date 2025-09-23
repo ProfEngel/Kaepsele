@@ -1,4 +1,4 @@
-# OpenTuneWeaver 🧬
+# KÄPSELE & HÖLDERLIN 🧬
 
 ![GitHub stars](https://img.shields.io/github/stars/ProfEngel/Kaepsele?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/ProfEngel/Kaepsele?style=social)
