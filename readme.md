@@ -95,3 +95,12 @@ _Made with ❤️ in Nürtingen, Germany_
 
 Contributions are welcome!  
 If you have ideas, improvements, or bug reports, feel free to open an **Issue** or submit a **Pull Request**.
+
+## Star History
+<a href="https://star-history.com/#ProfEngel/Kaepsele&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=ProfEngel/Kaepsele&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=ProfEngel/Kaepsele&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=ProfEngel/Kaepsele&type=Date" />
+  </picture>
+</a>
