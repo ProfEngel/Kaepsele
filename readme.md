@@ -10,6 +10,7 @@
 [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=ff69b4)](https://github.com/sponsors/ProfEngel)
 [![YouTube](https://img.shields.io/badge/YouTube-MatMaxEngel-red?logo=youtube&logoColor=white)](https://www.youtube.com/user/MatMaxEngel)
 [![Website](https://img.shields.io/badge/Website-opentuneweaver.com-blue?logo=googlechrome&logoColor=white)](https://opentuneweaver.com/)
+![License](https://img.shields.io/github/license/ProfEngel/Kaepsele)
 
 Das **KÄPSELE** ist ein innovativer **MoE (Mixture of Experts) und Multi-Agenten-Chatbot**, der als KI-Tutor für die moderne Hochschullehre entwickelt wurde. Dieses **Tandemforschungsprojekt** im Rahmen des Digital Fellowship-Programms wird gefördert durch:
 
@@ -68,6 +69,26 @@ Helfen Sie uns dabei, KI-Entwicklung für Bildung und Forschung zu demokratisier
 
 **[Werden Sie Sponsor und unterstützen Sie unsere Mission!](https://github.com/sponsors/ProfEngel)** 🚀
 
+## 📝 Feedback & Erfahrungsberichte erwünscht!
+
+**Setzen Sie KÄPSELE an Ihrer Einrichtung ein?** Wir würden uns sehr über Ihre Rückmeldungen freuen!
+
+Wenn Sie KÄPSELE nützlich finden und es in Ihrer Institution verwenden, laden wir Sie herzlich ein:
+
+- **Teilen Sie Ihre Erfahrungen** mit uns - sowohl positive Erkenntnisse als auch Verbesserungsvorschläge
+- **Lassen Sie uns wissen**, wie KÄPSELE Ihre Lehrpraxis verbessert hat
+- **Erlauben Sie uns die Veröffentlichung** Ihrer Meinung und des Logos Ihrer Einrichtung als Referenz
+
+**Kontaktieren Sie uns gerne:**
+- 📧 E-Mail: [mathias.engel@hfwu.de](mailto:mathias.engel@hfwu.de)
+- 🐙 GitHub Issues: [Feedback einreichen](https://github.com/ProfEngel/Kaepsele/issues/new?assignees=&labels=feedback&template=feedback.md&title=%5BFeedback%5D)
+
+### 🏛️ Einsatz an folgenden Einrichtungen
+
+*Hier werden die Logos und Erfahrungsberichte der Einrichtungen veröffentlicht, die KÄPSELE erfolgreich einsetzen.*
+
+---
+
 ## Medienberichterstattung & Interviews 📰
 
 OpenTuneWeaver und unsere Forschung zu KI in der Bildung haben große Medienaufmerksamkeit erhalten. Hier sind aktuelle Interviews und Artikel mit Tobias Leiblein, Prof. Dr. Mathias Engel und dem Projekt:
@@ -97,6 +118,54 @@ Bericht über die Unterstützung des Studiums durch KI, mit Fokus auf die Zusamm
 **📰 [Stuttgarter Zeitung - "Wie künstliche Intelligenz beim Lernen hilft"](https://www.stuttgarter-zeitung.de/inhalt.wissenschaftler-aus-nuertingen-wie-kuenstliche-intelligenz-beim-lernen-hilft.016cc0c8-debb-46b5-9fb4-8e99815dfcdb.html)**  
 *Veröffentlicht: 23.09.2024*  
 Artikel über die Unterstützung von Lernprozessen durch künstliche Intelligenz mit Forschungsergebnissen der HfWU Nürtingen-Geislingen und Diskussion von Chancen und Herausforderungen von Sprachmodellen wie ChatGPT für die akademische Lehre.
+
+---
+
+## 📜 Lizenz
+
+Dieses Projekt ist unter der **MIT-Lizenz** veröffentlicht - siehe [LICENSE](LICENSE) Datei für Details.
+
+KÄPSELE ist **Open Source** und steht allen Bildungseinrichtungen und Forschern zur freien Verfügung. Die MIT-Lizenz erlaubt:
+- ✅ **Kommerzielle Nutzung**
+- ✅ **Modifikation und Anpassung**  
+- ✅ **Distribution und Weiterverteilung**
+- ✅ **Private Nutzung**
+
+Einzige Bedingung: Behalten Sie den Copyright-Hinweis und die Lizenzangabe bei.
+
+## 📖 Zitierung
+
+Wenn Sie KÄPSELE in Ihrer Forschung, Lehre oder Publikationen verwenden, zitieren Sie uns bitte wie folgt:
+
+### BibTeX
+```bibtex
+@software{engel_leiblein_kaepsele_2024,
+  author       = {Engel, Mathias and Leiblein, Tobias},
+  title        = {{KÄPSELE: MoE and Multi-Agent Chatbot for Higher Education}},
+  year         = {2024},
+  publisher    = {GitHub},
+  journal      = {GitHub repository},
+  howpublished = {\url{https://github.com/ProfEngel/Kaepsele}},
+  note         = {Funded by MWK Baden-Württemberg and Stifterverband Deutschland}
+}
+```
+
+### APA-Format
+```
+Engel, M., & Leiblein, T. (2024). KÄPSELE: MoE and Multi-Agent Chatbot for Higher Education [Computer software]. GitHub. https://github.com/ProfEngel/Kaepsele
+```
+
+### Forschungsprojekt zitieren
+```bibtex
+@misc{engel_leiblein_fellowship_2024,
+  author       = {Engel, Mathias and Leiblein, Tobias},
+  title        = {{Digital Fellowship: KI-Tutor für die Hochschullehre - KÄPSELE powered by HÖLDERLIN}},
+  year         = {2024},
+  institution  = {Hochschule für Wirtschaft und Umwelt Nürtingen-Geislingen},
+  note         = {Fellowship-Programm 2024, gefördert durch MWK Baden-Württemberg und Stifterverband Deutschland},
+  url          = {https://www.stifterverband.org/bwdigifellows/2024_engel_leiblein}
+}
+```
 
 ---
 
