@@ -14,7 +14,7 @@
 
 Das **KÄPSELE** ist ein innovativer **MoE (Mixture of Experts) und Multi-Agenten-Chatbot**, der als KI-Tutor für die moderne Hochschullehre entwickelt wurde. Dieses **Tandemforschungsprojekt** im Rahmen des Digital Fellowship-Programms wird gefördert durch:
 
-<div align="right">
+<div align="left">
   <img src="https://github.com/ProfEngel/OpenTuneWeaver/blob/main/assets/mwk_logo_w2.png" alt="Ministry of Science, Research and Arts Logo" height="100">
   <img src="https://github.com/ProfEngel/OpenTuneWeaver/blob/main/assets/stifterverband_logo.jpg" alt="Stifterverband Logo" height="100">
 </div>
