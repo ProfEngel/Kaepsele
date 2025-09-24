@@ -15,8 +15,8 @@
 Das **KÄPSELE** ist ein innovativer **MoE (Mixture of Experts) und Multi-Agenten-Chatbot**, der als KI-Tutor für die moderne Hochschullehre entwickelt wurde. Dieses **Tandemforschungsprojekt** im Rahmen des Digital Fellowship-Programms wird gefördert durch:
 
 <div align="right">
-  <img src="https://github.com/ProfEngel/OpenTuneWeaver/blob/main/assets/mwk_logo_w2.png" alt="Ministry of Science, Research and Arts Logo" height="60">
-  <img src="https://github.com/ProfEngel/OpenTuneWeaver/blob/main/assets/stifterverband_logo.jpg" alt="Stifterverband Logo" height="60">
+  <img src="https://github.com/ProfEngel/OpenTuneWeaver/blob/main/assets/mwk_logo_w2.png" alt="Ministry of Science, Research and Arts Logo" height="100">
+  <img src="https://github.com/ProfEngel/OpenTuneWeaver/blob/main/assets/stifterverband_logo.jpg" alt="Stifterverband Logo" height="100">
 </div>
 
 **Projektleitung:** Prof. Dr. Mathias Engel & Tobias Leiblein  
@@ -180,7 +180,7 @@ _Mit ❤️ in Nürtingen entwickelt_
 **Tobias Leiblein und Prof. Dr. Mathias Engel - ProfEngel** 
 
 <div align="left">
-  <img src="assets/hfwu_logo_w.png" alt="Nürtingen-Geislingen University" width="100">
+  <img src="assets/hfwu_logo_w.png" alt="Nürtingen-Geislingen University" width="200">
 </div>
 
 **Hochschule für Wirtschaft und Umwelt Nürtingen-Geislingen**  
