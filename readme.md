@@ -46,7 +46,7 @@ Das Herzstück des Systems bildet das intuitive Chatbot-Interface für Ad-hoc-Fr
 
 Die vielfältigen Features des Chatbots (3) machen KÄPSELE zu einem umfassenden Lernbegleiter. Die integrierte Code-Ausführung ermöglicht interaktive Programmierung und direktes Code-Testing, während das RAG-System (Retrieval-Augmented Generation) Zugriff auf aktuelle Wissensdatenbanken bietet. Intelligente Suchfunktionen helfen beim gezielten Auffinden relevanter Informationen, und die Artefakte-Funktion unterstützt bei der Erstellung und Verwaltung von Lernobjekten. Das System kann sich durch Individualisierung an verschiedene Lernstile und -bedürfnisse anpassen. Über das Model Context Protocol (MCP/Tools) werden erweiterte Funktionalitäten bereitgestellt, während intelligente Automatismen (Agents) eine kontinuierliche Lernbegleitung und -unterstützung bieten.
 
-Das technische Rückgrat bildet HÖLDERLIN, unser maßgeschneidertes Sprachmodell (4), das speziell für den Einsatz in der Hochschullehre entwickelt wurde. Es basiert auf einem SOTA (State-of-the-Art) Foundation Open-Source-Modell und verfügt über einen 8k-Kontext, der umfassende und zusammenhängende Gespräche ermöglicht. Tools, Thinking und MoE (Mixture of Experts) sind aktiviert, um optimale Leistung und Ressourceneffizienz zu gewährleisten. Durch gezieltes Finetuning mit OpenTuneWeaver in Kombination mit RAG-Technologie wird das Modell kontinuierlich für spezifische Anwendungsfälle in der Lehre optimiert.
+Das technische Rückgrat bildet HÖLDERLIN, unser maßgeschneidertes Sprachmodell (4), das speziell für den Einsatz in der Hochschullehre entwickelt wurde. Es basiert stets auf dem aktuellsten SOTA (State-of-the-Art) Foundation Open-Source-Modell und verfügt über einen 8k-Kontext je User (ca. 16 DIN A4 Seiten), der umfassende und zusammenhängende Gespräche ermöglicht. Tools, Thinking und MoE (Mixture of Experts) sind aktiviert, um optimale Leistung und Ressourceneffizienz zu gewährleisten. Durch gezieltes Finetuning mit OpenTuneWeaver in Kombination mit RAG-Technologie wird das Modell kontinuierlich für spezifische Anwendungsfälle in der Lehre optimiert.
 
 Die kontinuierliche Weiterentwicklung (5) stellt sicher, dass KÄPSELE immer auf dem neuesten Stand der Technik bleibt. Nach jedem Semester wird das System mittels [OpenTuneWeaver](https://github.com/ProfEngel/OpenTuneWeaver) auf das dann aktuell beste verfügbare LLM trainiert und bereitgestellt. Dabei werden bewusst MoE-Architekturen eingesetzt, um Ressourcen zu schonen, während Thinking- und Tools-Funktionalitäten für erweiterte Problemlösungskapazitäten sorgen. Dieser Zyklus gewährleistet, dass die Studierenden stets von den neuesten Entwicklungen im Bereich der künstlichen Intelligenz profitieren können.
 
@@ -80,7 +80,7 @@ Wenn Sie KÄPSELE nützlich finden und es in Ihrer Institution verwenden, laden 
 - **Erlauben Sie uns die Veröffentlichung** Ihrer Meinung und des Logos Ihrer Einrichtung als Referenz
 
 **Kontaktieren Sie uns gerne:**
-- 📧 E-Mail: [mathias.engel@hfwu.de](mailto:mathias.engel@hfwu.de)
+- 📧 E-Mail: [Prof Engel at HFWU](https://www.hfwu.de/mathias-engel/)
 - 🐙 GitHub Issues: [Feedback einreichen](https://github.com/ProfEngel/Kaepsele/issues/new?assignees=&labels=feedback&template=feedback.md&title=%5BFeedback%5D)
 
 ### 🏛️ Einsatz an folgenden Einrichtungen
