@@ -37,7 +37,7 @@ Das Projekt zielt darauf ab, einen bereits erfolgreich pilotierten KI-Tutor im g
 
 ## Systemarchitektur und Funktionsweise
 
-<img src="https://github.com/ProfEngel/Kaepsele/blob/main/assets/kaepsele_Schema.png" alt="Schema des Käpsele mit dem Hölderlin-Sprachmodell" height="600">
+![Schema des Käpsele mit dem Hölderlin-Sprachmodell](assets/kaepsele_Schema.png)
 *Schema des Käpsele mit dem Hölderlin-Sprachmodell*
 
 
